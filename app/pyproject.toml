@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "app"
+version = "0.1.0"
+description = ""
+authors = ["Ceasar15 <ceasarkwadwo@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+psycopg2-binary = "^2.8.6"
+uvicorn = "^0.13.4"
+SQLAlchemy = "^1.4.11"
+fastapi = "^0.63.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+mypy = "^0.812"
+sqlalchemy-stubs = "^0.4"
+flake8 = "^3.9.1"
+autoflake = "^1.4"
+isort = "^5.8.0"
+black = "^21.4b0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
