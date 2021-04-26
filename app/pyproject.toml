@@ -10,6 +10,7 @@ psycopg2-binary = "^2.8.6"
 uvicorn = "^0.13.4"
 SQLAlchemy = "^1.4.11"
 fastapi = "^0.63.0"
+python-dotenv = "^0.17.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
