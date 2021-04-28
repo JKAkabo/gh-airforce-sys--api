@@ -10,7 +10,7 @@ from .db import SessionLocal, engine
 
 # Create all tables in the database.
 # Comment this out if you using migrations.
-models.Base.metadata.create_all(bind=engine)
+# models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
