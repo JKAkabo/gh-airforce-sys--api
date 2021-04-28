@@ -3,13 +3,18 @@ from typing import Any, Dict, List, Optional, Union
 
 from pydantic import BaseSettings, PostgresDsn, validator
 
+# personnel can create a personnel
+# fname, lname,wing, id(key)
+# Wings table and wing (1:1) Relationship
+# Ranks Categories (Enlisted Ranks, Warrant Ranks, )
+# Ranks ( )
+# Personnel (those who can login with super access )
+# Admin account. Can add other users. CRUD users.
+# View all personnel data
+# Record duty post, leave, operations for every user
+
 
 class Settings(BaseSettings):
-
-    # POSTGRES_SERVER:
-    # POSTGRES_USER: os.getenv("POSTGRES_USER")
-    # POSTGRES_PASSWORD: str
-    # POSTGRES_DB: str
 
     SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://bookmarks:edem1234@/airforce"
 

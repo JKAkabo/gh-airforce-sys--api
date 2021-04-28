@@ -10,12 +10,16 @@ class HTTPError(BaseModel):
 class UserBase(BaseModel):
     first_name: Optional[str] = None
     last_name: Optional[str] = None
+    wing: Optional[str] = None
+    rank: Optional[str] = None
 
 
 # Properties to receive via API on creation
 class UserCreate(UserBase):
     first_name: str
     last_name: str
+    wing: str
+    rank: str
 
 
 # Properties to receive via API on update
