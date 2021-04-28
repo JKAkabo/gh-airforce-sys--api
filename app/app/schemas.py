@@ -14,6 +14,17 @@ class UserBase(BaseModel):
     rank: Optional[str] = None
 
 
+class User(BaseModel):
+    username: str
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
+    disabled: Optional[str] = None
+
+
+class UserInDB(User):
+    hashed_password: str
+
+
 # Properties to receive via API on creation
 class UserCreate(UserBase):
     first_name: str
@@ -40,8 +51,6 @@ class User(UserInDBBase):
 
 
 # Additional properties stored in DB
-class UserInDB(UserInDBBase):
-    pass
 
 
 
