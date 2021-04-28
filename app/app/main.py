@@ -20,9 +20,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 
 def fake_decode_token(token):
-    return User(
-        username=token + "fakedecoded", first_name="Ceasar", last_name="Edem"
-    )
+    return User(username=token + "fakedecoded", first_name="Ceasar", last_name="Edem" )
 
 
 async def get_current_user(token: str = Depends(oauth2_scheme)):
@@ -33,6 +31,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
 @app.get("/users/me")
 async def read_users_me(current_user: User = Depends(get_current_user)):
     return current_user
+
 
 # Dependency to get DB session.
 def get_db():
@@ -46,10 +45,6 @@ def get_db():
 @app.get("/login/")
 async def login_user(token: str = Depends(oauth2_scheme)):
     return {"token": token}
-
-
-
-
 
 
 @app.get("/")
