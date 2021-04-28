@@ -1,15 +1,14 @@
-from typing import Any, List
+from typing import Any, List, Optional
 
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 
 from pydantic import UUID4
-from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from starlette.status import HTTP_201_CREATED, HTTP_404_NOT_FOUND
 
 from . import actions, models, schemas
-
+from .models import User
 
 # Create all tables in the database.
 # Comment this out if you using migrations.
@@ -18,6 +17,22 @@ from . import actions, models, schemas
 app = FastAPI()
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
+
+def fake_decode_token(token):
+    return User(
+        username=token + "fakedecoded", first_name="Ceasar", last_name="Edem"
+    )
+
+
+async def get_current_user(token: str = Depends(oauth2_scheme)):
+    user = fake_decode_token(token)
+    return user
+
+
+@app.get("/users/me")
+async def read_users_me(current_user: User = Depends(get_current_user)):
+    return current_user
 
 # Dependency to get DB session.
 def get_db():

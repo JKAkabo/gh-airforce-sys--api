@@ -1,6 +1,8 @@
+from typing import Optional
 from uuid import uuid4
 from sqlalchemy import Column, String, Text
 from sqlalchemy.dialects.postgresql import UUID
+from pydantic import BaseModel
 
 from .db.base import Base
 
@@ -13,4 +15,10 @@ class Users(Base):
     wing = Column(String)
     rank = Column(String)
 
+
+class User(BaseModel):
+    username: str
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
+    disabled: Optional[str] = None
 
