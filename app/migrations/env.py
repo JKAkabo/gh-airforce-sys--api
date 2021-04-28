@@ -17,7 +17,6 @@ target_metadata = Base.metadata
 
 
 def get_url():
-    from app.app.config import settings
     user = 'bookmarks'
     passwor = 'edem1234'
     server = 'localhost'
