@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from starlette.status import HTTP_201_CREATED, HTTP_404_NOT_FOUND
 
 from . import actions, models, schemas
-from .db import SessionLocal, engine
+# from .db import SessionLocal, engine
 
 # Create all tables in the database.
 # Comment this out if you using migrations.
