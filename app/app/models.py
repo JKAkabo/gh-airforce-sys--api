@@ -15,12 +15,11 @@ class User(Base):
     last_name = Column(String)
     wing = Column(String)
     rank = Column(String)
+    hashed_password = Column(String)
 
 
 class UserIn(User):
-    # __tablename__ = "users"
-    # password: str
-    pass
+    hashed_password: str
 
 
 class UserOut(User):
