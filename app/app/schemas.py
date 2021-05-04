@@ -24,12 +24,11 @@ class UserInDB(User):
 
 
 class UserCreate(User):
-    first_name: Optional[str]
-    last_name: Optional[str]
-    first_name: Optional[str]
-    last_name: Optional[str]
-    wing: Optional[str]
-    rank: Optional[str]
+    username: str
+    first_name: str
+    last_name: str
+    wing: str
+    rank: str
 
 
 class HTTPError(BaseModel):

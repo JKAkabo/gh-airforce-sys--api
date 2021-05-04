@@ -7,7 +7,7 @@ from pydantic import BaseModel
 from .db.base import Base
 
 
-class Users(Base):
+class User(Base):
     __tablename__ = "users"
     id = Column(UUID(as_uuid=True), primary_key=True, index=True, default=uuid1)
     username = Column(String)
@@ -19,13 +19,13 @@ class Users(Base):
     is_superuser: bool = False
 
 
-class UserIn(Users):
+class UserIn(User):
     # __tablename__ = "users"
     # password: str
     pass
 
 
-class UserOut(Users):
+class UserOut(User):
     key: str
     created_at: float
     updated_at: Optional[float]

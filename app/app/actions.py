@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 
 from . import schemas
 from .db import Base
-from .models import Users
+from .models import User
 
 
 # Define custom types for SQLAlchemy model, and Pydantic schemas
@@ -60,9 +60,9 @@ class BaseActions(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         return obj
 
 
-class UserActions(BaseActions[Users, schemas.UserCreate, schemas.UserUpdate]):
+class UserActions(BaseActions[User, schemas.UserCreate, schemas.UserUpdate]):
     """Post actions with basic CRUD operations"""
     pass
 
 
-user = UserActions(Users)
+user = UserActions(User)
