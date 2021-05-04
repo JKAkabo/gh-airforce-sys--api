@@ -19,6 +19,7 @@ class Users(Base):
 
 
 class UserIn(Users):
+    __tablename__ = "users"
     password: str
 
 
