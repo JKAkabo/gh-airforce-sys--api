@@ -17,4 +17,16 @@ class Users(Base):
     is_superuser: bool = False
 
 
+class UserIn(Users):
+    password: str
+
+
+class UserOut(Users):
+    key: str
+    created_at: float
+    updated_at: Optional[float]
+
+
+# class User(UserIn, UserOut):
+#     deleted_at: Optional[float]
 

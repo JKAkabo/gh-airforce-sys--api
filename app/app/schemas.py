@@ -36,13 +36,6 @@ class UserBase(BaseModel):
     rank: Optional[str] = None
 
 
-class User(BaseModel):
-    username: str
-    first_name: Optional[str] = None
-    last_name: Optional[str] = None
-    disabled: Optional[str] = None
-
-
 # Properties to receive via API on creation
 class UserCreate(UserBase):
     first_name: str

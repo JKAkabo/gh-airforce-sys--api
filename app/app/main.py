@@ -8,13 +8,19 @@ from passlib.context import CryptContext
 from pydantic import BaseModel
 
 from .schemas import Token, TokenData, User, UserInDB
+from .db.session import SessionLocal
 
-# to get a string like this run:
-# openssl rand -hex 32
 SECRET_KEY = "0d785176a0ed6bcc8dd2783f86fd6786e6ac105e9de743294deddbef0c60eda3"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
+# Dependency to get DB session.
+def get_db():
+    try:
+        db = SessionLocal()
+        yield db
+    finally:
+        db.close()
 
 fake_users_db = {
     "johndoe": {
@@ -98,7 +104,7 @@ async def get_current_active_user(current_user: User = Depends(get_current_user)
 
 @app.post("/token", response_model=Token)
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
-    user = authenticate_user(fake_users_db, form_data.username, form_data.password)
+    user = authenticate_user(get_db(), form_data.username, form_data.password)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -250,16 +256,6 @@ async def read_own_items(current_user: User = Depends(get_current_active_user)):
 # @app.get("/login/")
 # async def login_user(token: str = Depends(oauth2_scheme)):
 #     return {"token": token}
-
-
-# Dependency to get DB session.
-# def get_db():
-#     try:
-#         db = SessionLocal()
-#         yield db
-#     finally:
-#         db.close()
-
 
 
 @app.get("/")
