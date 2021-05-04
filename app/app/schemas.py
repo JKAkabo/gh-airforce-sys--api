@@ -12,12 +12,11 @@ class TokenData(BaseModel):
 
 
 class User(BaseModel):
-    username: str
+    username: Optional[str] = None
     first_name: Optional[str] = None
     last_name: Optional[str] = None
     wing: Optional[str] = None
     rank: Optional[str] = None
-    disabled: Optional[bool] = None
 
 
 class UserInDB(User):
@@ -25,12 +24,12 @@ class UserInDB(User):
 
 
 class UserCreate(User):
-    first_name: str
-    last_name: str
-    first_name: str
-    last_name: str
-    wing: str
-    rank: str
+    first_name: Optional[str]
+    last_name: Optional[str]
+    first_name: Optional[str]
+    last_name: Optional[str]
+    wing: Optional[str]
+    rank: Optional[str]
 
 
 class HTTPError(BaseModel):
