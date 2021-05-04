@@ -1,5 +1,5 @@
 from typing import Optional
-from pydantic import BaseModel, UUID1
+from pydantic import BaseModel, UUID4
 
 
 class Token(BaseModel):
@@ -40,7 +40,7 @@ class UserUpdate(User):
 
 
 class UserInDBBase(User):
-    id: Optional[UUID1] = None
+    id: Optional[UUID4] = None
 
     class Config:
         orm_mode = True

@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from typing import Optional, Any
+from typing import Optional, Any, List
 import secrets
 from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
@@ -271,12 +271,12 @@ def index():
     return {"message": "Hello world!"}
 
 
-# @app.get("/users", response_model=List[schemas.User], tags=["users"])
-# def list_users(db: Session = Depends(get_db), skip: int = 0, limit: int = 100) -> Any:
-#     users = actions.user.get_all(db=db, skip=skip, limit=limit)
-#     return users
-#
-#
+@app.get("/users", response_model=List[User], tags=["users"])
+def list_users(db: SessionLocal = Depends(get_db), skip: int = 0, limit: int = 100) -> Any:
+    users = actions.user.get_all(db=db, skip=skip, limit=limit)
+    return users
+
+
 
 #
 #
