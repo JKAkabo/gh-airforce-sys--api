@@ -12,7 +12,7 @@ class TokenData(BaseModel):
 
 
 class User(BaseModel):
-    username: Optional[str] = None
+    username: str
     first_name: Optional[str] = None
     last_name: Optional[str] = None
     wing: Optional[str] = None

@@ -15,8 +15,7 @@ class User(Base):
     last_name = Column(String)
     wing = Column(String)
     rank = Column(String)
-    hashed_password = Column(String)
-    is_superuser: bool = False
+
 
 
 class UserIn(User):
