@@ -1,14 +1,16 @@
 from datetime import datetime, timedelta
-from typing import Optional
-
+from typing import Optional, Any
+import secrets
 from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 from pydantic import BaseModel
+from starlette.status import HTTP_201_CREATED
 
-from .schemas import Token, TokenData, User, UserInDB
+from .schemas import Token, TokenData, User, UserInDB, UserCreate
 from .db.session import SessionLocal
+from . import actions
 
 SECRET_KEY = "0d785176a0ed6bcc8dd2783f86fd6786e6ac105e9de743294deddbef0c60eda3"
 ALGORITHM = "HS256"
@@ -93,6 +95,12 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
     user = get_user(fake_users_db, username=token_data.username)
     if user is None:
         raise credentials_exception
+    return user
+
+
+@app.post("/users", response_model=User, status_code=HTTP_201_CREATED, tags=["users"])
+def create_user(*, db: SessionLocal = Depends(get_db), user_in: UserCreate) -> Any:
+    user = actions.user.create(db=db, obj_in=user_in)
     return user
 
 
@@ -269,10 +277,7 @@ def index():
 #     return users
 #
 #
-# @app.post("/users", response_model=schemas.User, status_code=HTTP_201_CREATED, tags=["users"])
-# def create_user(*, db: Session = Depends(get_db), user_in: schemas.UserCreate) -> Any:
-#     user = actions.user.create(db=db, obj_in=user_in)
-#     return user
+
 #
 #
 # @app.put("/users/{id}", response_model=schemas.User, responses={HTTP_404_NOT_FOUND: {"model": schemas.HTTPError}}, tags=["users"],)

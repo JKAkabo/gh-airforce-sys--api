@@ -24,8 +24,21 @@ class UserInDB(User):
     hashed_password: str
 
 
+class UserCreate(User):
+    first_name: str
+    last_name: str
+    first_name: str
+    last_name: str
+    wing: str
+    rank: str
+
+
 class HTTPError(BaseModel):
     detail: str
+
+
+class UserUpdate(User):
+    pass
 
 
 class UserInDBBase(User):
