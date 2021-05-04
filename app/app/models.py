@@ -15,12 +15,14 @@ class Users(Base):
     last_name = Column(String)
     wing = Column(String)
     rank = Column(String)
+    password: str
     is_superuser: bool = False
 
 
 class UserIn(Users):
-    __tablename__ = "users"
-    password: str
+    # __tablename__ = "users"
+    # password: str
+    pass
 
 
 class UserOut(Users):
