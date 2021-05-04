@@ -2,6 +2,28 @@ from typing import Optional
 from pydantic import BaseModel, UUID4
 
 
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+
+class TokenData(BaseModel):
+    username: Optional[str] = None
+
+
+class User(BaseModel):
+    username: str
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
+    wing: Optional[str] = None
+    rank: Optional[str] = None
+    disabled: Optional[bool] = None
+
+
+class UserInDB(User):
+    hashed_password: str
+
+
 class HTTPError(BaseModel):
     detail: str
 
@@ -19,10 +41,6 @@ class User(BaseModel):
     first_name: Optional[str] = None
     last_name: Optional[str] = None
     disabled: Optional[str] = None
-
-
-class UserInDB(User):
-    hashed_password: str
 
 
 # Properties to receive via API on creation
@@ -43,15 +61,3 @@ class UserInDBBase(UserBase):
 
     class Config:
         orm_mode = True
-
-
-# Additional properties to return via API
-class User(UserInDBBase):
-    pass
-
-
-# Additional properties stored in DB
-
-
-
-

@@ -14,6 +14,7 @@ class Users(Base):
     last_name = Column(String)
     wing = Column(String)
     rank = Column(String)
+    is_superuser: bool = False
 
 
 
