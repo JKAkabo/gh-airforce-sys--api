@@ -98,7 +98,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
     return user
 
 
-@app.post("/users", response_model=User, status_code=HTTP_201_CREATED, tags=["users"])
+@app.post("/users", response_model=User, status_code=HTTP_201_CREATED, tags=["user"])
 def create_user(*, db: SessionLocal = Depends(get_db), user_in: UserCreate) -> Any:
     user = actions.user.create(db=db, obj_in=user_in)
     return user
@@ -261,9 +261,10 @@ async def read_own_items(current_user: User = Depends(get_current_active_user)):
 #     return current_user
 #
 #
-# @app.get("/login/")
-# async def login_user(token: str = Depends(oauth2_scheme)):
-#     return {"token": token}
+
+@app.get("/login/")
+async def login_user(token: str = Depends(oauth2_scheme)):
+    return {"token": token}
 
 
 @app.get("/")
@@ -277,9 +278,6 @@ def list_users(db: SessionLocal = Depends(get_db), skip: int = 0, limit: int = 1
     return users
 
 
-
-#
-#
 # @app.put("/users/{id}", response_model=schemas.User, responses={HTTP_404_NOT_FOUND: {"model": schemas.HTTPError}}, tags=["users"],)
 # def update_user(*, db: Session = Depends(get_db), id: UUID4, user_in: schemas.UserUpdate,) -> Any:
 #     user = actions.user.get(db=db, id=id)

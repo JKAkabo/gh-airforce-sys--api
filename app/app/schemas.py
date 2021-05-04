@@ -17,6 +17,10 @@ class User(BaseModel):
     last_name: Optional[str] = None
     wing: Optional[str] = None
     rank: Optional[str] = None
+    hashed_password: Optional[str] = None
+
+    class Config(BaseModel):
+        orm_mode = True
 
 
 class UserInDB(User):
@@ -40,7 +44,6 @@ class UserUpdate(User):
 
 
 class UserInDBBase(User):
-    id: Optional[UUID4] = None
 
-    class Config:
+    class Config(User):
         orm_mode = True
