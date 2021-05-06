@@ -17,7 +17,6 @@ class User(BaseModel):
     last_name: Optional[str] = None
     wing: Optional[str] = None
     rank: Optional[str] = None
-    hashed_password: Optional[str] = None
 
     class Config(BaseModel):
         orm_mode = True
