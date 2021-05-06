@@ -115,7 +115,7 @@ basic_auth = BasicAuth(auto_error=False)
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/token")
 # oauth2_scheme = OAuth2PasswordBearerCookie(tokenUrl="/token")
 
 app = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
