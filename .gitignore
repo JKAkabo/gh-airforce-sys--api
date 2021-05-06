@@ -142,3 +142,5 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+.my_env
+my_env
