@@ -12,12 +12,14 @@ class TokenData(BaseModel):
 
 
 class User(BaseModel):
+
     username: str
     first_name: Optional[str] = None
     last_name: Optional[str] = None
     wing: Optional[str] = None
     rank: Optional[str] = None
     hashed_password: Optional[str] = None
+    disabled: Optional[str] = None
 
     class Config(BaseModel):
         orm_mode = True
@@ -25,6 +27,7 @@ class User(BaseModel):
 
 class UserInDB(User):
     hashed_password: str
+    disabled: str
 
 
 class UserCreate(User):
