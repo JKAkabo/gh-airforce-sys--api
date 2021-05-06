@@ -1,16 +1,15 @@
 from typing import Optional
 import base64
+
 from passlib.context import CryptContext
 from datetime import datetime, timedelta
 
-import jwt
-# from jwt import PyJWTError
-from jose import JWTError
+from jose import JWTError, jwt
 from pydantic import BaseModel
 
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.encoders import jsonable_encoder
-from fastapi.security import OAuth2PasswordRequestForm, OAuth2, OAuth2PasswordBearer, OAuth2
+from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer, OAuth2
 from fastapi.security.base import SecurityBase
 from fastapi.security.utils import get_authorization_scheme_param
 from fastapi.openapi.docs import get_swagger_ui_html
@@ -42,7 +41,7 @@ fake_users_db = {
         "username": "johndoe",
         "full_name": "John Doe",
         "email": "johndoe@example.com",
-        "hashed_password": "secret",
+        "hashed_password": "$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW",
         "disabled": False,
     }
 }
@@ -119,8 +118,8 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 # oauth2_scheme = OAuth2PasswordBearerCookie(tokenUrl="/token")
 
-# app = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
-app = FastAPI()
+app = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
+# app = FastAPI()
 
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
