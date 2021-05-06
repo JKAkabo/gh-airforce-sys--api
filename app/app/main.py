@@ -10,7 +10,7 @@ from pydantic import BaseModel
 
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.encoders import jsonable_encoder
-from fastapi.security import OAuth2PasswordRequestForm, OAuth2
+from fastapi.security import OAuth2PasswordRequestForm, OAuth2, OAuth2PasswordBearer, OAuth2
 from fastapi.security.base import SecurityBase
 from fastapi.security.utils import get_authorization_scheme_param
 from fastapi.openapi.docs import get_swagger_ui_html
@@ -47,51 +47,51 @@ fake_users_db = {
     }
 }
 
-class OAuth2PasswordBearerCookie(OAuth2):
-    def __init__(
-        self,
-        tokenUrl: str,
-        scheme_name: str = None,
-        scopes: dict = None,
-        auto_error: bool = True,
-    ):
-        if not scopes:
-            scopes = {}
-        flows = OAuthFlowsModel(password={"tokenUrl": tokenUrl, "scopes": scopes})
-        super().__init__(flows=flows, scheme_name=scheme_name, auto_error=auto_error)
-
-    async def __call__(self, request: Request) -> Optional[str]:
-        header_authorization: str = request.headers.get("Authorization")
-        cookie_authorization: str = request.cookies.get("Authorization")
-
-        header_scheme, header_param = get_authorization_scheme_param(
-            header_authorization
-        )
-        cookie_scheme, cookie_param = get_authorization_scheme_param(
-            cookie_authorization
-        )
-
-        if header_scheme.lower() == "bearer":
-            authorization = True
-            scheme = header_scheme
-            param = header_param
-
-        elif cookie_scheme.lower() == "bearer":
-            authorization = True
-            scheme = cookie_scheme
-            param = cookie_param
-
-        else:
-            authorization = False
-
-        if not authorization or scheme.lower() != "bearer":
-            if self.auto_error:
-                raise HTTPException(
-                    status_code=HTTP_403_FORBIDDEN, detail="Not authenticated"
-                )
-            else:
-                return None
-        return param
+# class OAuth2PasswordBearerCookie(OAuth2):
+#     def __init__(
+#         self,
+#         tokenUrl: str,
+#         scheme_name: str = None,
+#         scopes: dict = None,
+#         auto_error: bool = True,
+#     ):
+#         if not scopes:
+#             scopes = {}
+#         flows = OAuthFlowsModel(password={"tokenUrl": tokenUrl, "scopes": scopes})
+#         super().__init__(flows=flows, scheme_name=scheme_name, auto_error=auto_error)
+#
+#     async def __call__(self, request: Request) -> Optional[str]:
+#         header_authorization: str = request.headers.get("Authorization")
+#         cookie_authorization: str = request.cookies.get("Authorization")
+#
+#         header_scheme, header_param = get_authorization_scheme_param(
+#             header_authorization
+#         )
+#         cookie_scheme, cookie_param = get_authorization_scheme_param(
+#             cookie_authorization
+#         )
+#
+#         if header_scheme.lower() == "bearer":
+#             authorization = True
+#             scheme = header_scheme
+#             param = header_param
+#
+#         elif cookie_scheme.lower() == "bearer":
+#             authorization = True
+#             scheme = cookie_scheme
+#             param = cookie_param
+#
+#         else:
+#             authorization = False
+#
+#         if not authorization or scheme.lower() != "bearer":
+#             if self.auto_error:
+#                 raise HTTPException(
+#                     status_code=HTTP_403_FORBIDDEN, detail="Not authenticated"
+#                 )
+#             else:
+#                 return None
+#         return param
 
 
 class BasicAuth(SecurityBase):
@@ -116,10 +116,11 @@ basic_auth = BasicAuth(auto_error=False)
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-oauth2_scheme = OAuth2PasswordBearerCookie(tokenUrl="/token")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+# oauth2_scheme = OAuth2PasswordBearerCookie(tokenUrl="/token")
 
-app = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
-
+# app = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
+app = FastAPI()
 
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
@@ -214,7 +215,6 @@ async def login_basic(auth: BasicAuth = Depends(basic_auth)):
         user = authenticate_user(fake_users_db, username, password)
         if not user:
             raise HTTPException(status_code=400, detail="Incorrect email or password")
-
         access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
         access_token = create_access_token(
             data={"sub": username}, expires_delta=access_token_expires
