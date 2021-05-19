@@ -1,3 +1,4 @@
+from typing import List
 from fastapi import APIRouter, Depends, status, HTTPException
 from bluestorm.models.persons import Person, PersonCreate, PersonOut, PasswordResetIn, PasswordResetRequestIn
 from bluestorm.dependencies import get_deta, get_settings, get_crypt_context
@@ -9,7 +10,7 @@ from jose import jwt, JWTError
 router = APIRouter(prefix='/persons', tags=['persons'])
 
 
-@router.get('', response_model=list[PersonOut])
+@router.get('', response_model=List[PersonOut])
 async def read_persons(deta: Deta = Depends(get_deta)):
     base = deta.Base('persons')
     return next(base.fetch())

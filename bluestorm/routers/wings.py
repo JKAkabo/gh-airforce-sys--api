@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 
 from asyncpg import Pool, Connection, Record
 from fastapi import APIRouter, Depends
@@ -10,9 +10,9 @@ from bluestorm.repos import wings as wings_repo
 router = APIRouter(prefix='/wings', tags=['wings'])
 
 
-@router.get('', response_model=list[WingPublic])
-async def read_wings(enabled: Optional[bool] = None, db_pool: Pool = Depends(get_db_pool)) -> list[Record]:
-    wings: list[Record]
+@router.get('', response_model=List[WingPublic])
+async def read_wings(enabled: Optional[bool] = None, db_pool: Pool = Depends(get_db_pool)) -> List[Record]:
+    wings: List[Record]
     connection: Connection
     async with db_pool.acquire() as connection:
         if enabled is None:

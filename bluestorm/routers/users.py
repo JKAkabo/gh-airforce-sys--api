@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import List
 
 from bluestorm.dependencies import AppContext, get_app_context, get_crypt_context, get_current_user
 from bluestorm.models.users import UserIn, UserOut, User
@@ -9,7 +10,7 @@ from fastapi import APIRouter, Depends, Request
 router = APIRouter(prefix='/users', tags=['users'])
 
 
-@router.get('', response_model=list[UserOut])
+@router.get('', response_model=List[UserOut])
 async def read_users(app_context: AppContext = Depends(get_app_context)):
     base = app_context.deta.Base('users')
     return next(base.fetch())
@@ -32,7 +33,7 @@ async def create_user(userIn: UserIn, app_context: AppContext = Depends(get_app_
     user = userIn.dict()
     user['password'] = get_crypt_context().hash(user['password'])
     user['created_at'] = datetime.now().timestamp()
-    return base.put(user);
+    return base.put(user)
 
 
 @router.put('/{user_key}', response_model=UserOut)

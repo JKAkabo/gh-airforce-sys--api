@@ -1,17 +1,18 @@
+from typing import List
 from asyncpg import Record, Connection
 
 from bluestorm.models.wings import WingCreate, WingUpdate
 
 
-async def find_all(connection: Connection) -> list[Record]:
+async def find_all(connection: Connection) -> List[Record]:
     return await connection.fetch('select * from wings')
 
 
-async def find_enabled(connection: Connection) -> list[Record]:
+async def find_enabled(connection: Connection) -> List[Record]:
     return await connection.fetch('select * from wings where enabled = true')
 
 
-async def find_disabled(connection: Connection) -> list[Record]:
+async def find_disabled(connection: Connection) -> List[Record]:
     return await connection.fetch('select * from wings where enabled = false')
 
 

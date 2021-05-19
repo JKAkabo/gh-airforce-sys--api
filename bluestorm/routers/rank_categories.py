@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 
 from asyncpg import Pool, Connection, Record
 from fastapi import APIRouter, Depends
@@ -11,9 +11,9 @@ from bluestorm.repos import rank_categories as rank_categories_repo, ranks as ra
 router = APIRouter(prefix='/rank-categories', tags=['rank categories'])
 
 
-@router.get('', response_model=list[RankCategoryPublic])
-async def read_rank_categories(enabled: Optional[bool] = None, db_pool: Pool = Depends(get_db_pool)) -> list[Record]:
-    rank_categories: list[Record]
+@router.get('', response_model=List[RankCategoryPublic])
+async def read_rank_categories(enabled: Optional[bool] = None, db_pool: Pool = Depends(get_db_pool)) -> List[Record]:
+    rank_categories: List[Record]
     connection: Connection
     async with db_pool.acquire() as connection:
         if enabled is None:
@@ -56,10 +56,10 @@ async def update_rank_category(rank_category_id: int, rank_category_update: Rank
     return rank_category
 
 
-@router.get('/{rank_category_id}/ranks', response_model=list[RankPublic])
+@router.get('/{rank_category_id}/ranks', response_model=List[RankPublic])
 async def read_ranks_for_rank_category(rank_category_id: int, enabled: Optional[bool] = None,
-                                       db_pool: Pool = Depends(get_db_pool)) -> list[Record]:
-    ranks: list[Record]
+                                       db_pool: Pool = Depends(get_db_pool)) -> List[Record]:
+    ranks: List[Record]
     connection: Connection
     async with db_pool.acquire() as connection:
         if enabled is None:

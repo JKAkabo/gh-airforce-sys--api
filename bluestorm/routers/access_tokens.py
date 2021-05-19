@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-
+from typing import List
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from jose import jwt
@@ -14,7 +14,7 @@ router = APIRouter(prefix='/access-tokens', tags=['access_tokens'])
 @router.post('', response_model=AccessToken)
 async def create_access_token(credentials: OAuth2PasswordRequestForm = Depends(), app_context: AppContext = Depends(get_app_context)):
     base = app_context.deta.Base('users')
-    users: list[User] = next(base.fetch({'email': credentials.username}))
+    users: List[User] = next(base.fetch({'email': credentials.username}))
     print(users)
     if not users or not get_crypt_context().verify(credentials.password, users[0]['password']):
         raise HTTPException(

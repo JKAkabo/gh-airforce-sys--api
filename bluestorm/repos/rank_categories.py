@@ -1,13 +1,14 @@
+from typing import List
 from asyncpg import Record, Connection
 
 from bluestorm.models.rank_categories import RankCategoryCreate, RankCategoryUpdate
 
 
-async def find_all(connection: Connection) -> list[Record]:
+async def find_all(connection: Connection) -> List[Record]:
     return await connection.fetch('select * from rank_categories')
 
 
-async def find_enabled(connection: Connection) -> list[Record]:
+async def find_enabled(connection: Connection) -> List[Record]:
     return await connection.fetch('select * from rank_categories where enabled = true')
 
 
@@ -15,7 +16,7 @@ async def find_by_id(connection: Connection, rank_category_id: int) -> Record:
     return await connection.fetchrow('select * from rank_categories where id = $1', rank_category_id)
 
 
-async def find_disabled(connection: Connection) -> list[Record]:
+async def find_disabled(connection: Connection) -> List[Record]:
     return await connection.fetch('select * from rank_categories where enabled = false')
 
 

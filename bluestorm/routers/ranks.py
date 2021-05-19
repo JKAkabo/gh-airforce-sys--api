@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional,List
 
 from asyncpg import Pool, Connection, Record
 from fastapi import APIRouter, Depends
@@ -10,9 +10,9 @@ from bluestorm.repos import ranks as ranks_repo
 router = APIRouter(prefix='/ranks', tags=['ranks'])
 
 
-@router.get('', response_model=list[RankPublic])
-async def read_ranks(enabled: Optional[bool] = None, db_pool: Pool = Depends(get_db_pool)) -> list[Record]:
-    ranks: list[Record]
+@router.get('', response_model=List[RankPublic])
+async def read_ranks(enabled: Optional[bool] = None, db_pool: Pool = Depends(get_db_pool)) -> List[Record]:
+    ranks: List[Record]
     connection: Connection
     async with db_pool.acquire() as connection:
         if enabled is None:
